@@ -1,11 +1,8 @@
 package supersql.extendclass;
 
 
-import java.lang.reflect.Array;
 import java.util.*;
 
-import jdk.nashorn.internal.objects.Global;
-import net.sf.jsqlparser.statement.select.FromItem;
 import supersql.common.GlobalEnv;
 import supersql.common.Log;
 import supersql.parser.*;
@@ -15,7 +12,7 @@ public class QueryBuffer {
     public ExtList sep_sch;
     private HashSet tg;
     private FromInfo fi;
-    private Hashtable atts;
+    private Hashtable atts; // 属性番号と属性がセットになっている
     private ExtList aggregate_list;
     private ExtList aggregate_attnum_list;
     private ExtList result;
@@ -549,10 +546,11 @@ public class QueryBuffer {
     }
 
     public void makeAllPattern() {
+        // どの属性値がCtabのどこにあるか
         ExtList info = Preprocessor.getCtabList();
         ExtList infoCorresponding = new ExtList();
         int num = info.size();
-        boolean contain = false;
+        boolean contain = false; // 表側 or 値を持つか
         ExtList sep_sch = this.sep_sch.unnest();
         for (int i = 0; i < sep_sch.size(); i++) {
             for (int j = 0; j < num; j++) {
@@ -567,7 +565,6 @@ public class QueryBuffer {
             }
         }
 //        Log.info("contain:::"+contain);
-//        Log.info("Corre:::"+infoCorresponding);
         ExtList result = this.result;
         if(!contain){
 //            Log.info("\tThis QueryBuffer is not a Cross_tab form");
@@ -578,6 +575,7 @@ public class QueryBuffer {
                     break;
                 }
             }
+            // 表頭だけだったら
             if(onlyHead){
 //                Log.info("\tThis QueryBuffer only contains head attributes");
 //                Log.info("\tExtract head Attribute Start");
@@ -833,6 +831,6 @@ public class QueryBuffer {
 //        }
         this.result = result;
 //        Log.info("resultFinal:::"+result.size());
-//        Log.info("finalresult:::"+result);
+        Log.info("finalresult:::"+result);
     }
 }

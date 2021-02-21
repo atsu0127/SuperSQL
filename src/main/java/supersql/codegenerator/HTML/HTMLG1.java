@@ -30,7 +30,6 @@ public class HTMLG1 extends Grouper implements Serializable {
 		return "HTMLG1";
 	}
 
-	// G1��work�᥽�å�
 	@Override
 	public String work(ExtList data_info) {
 		Log.out("------- G1 -------");

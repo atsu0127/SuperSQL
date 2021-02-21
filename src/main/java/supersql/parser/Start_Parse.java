@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -251,34 +254,8 @@ public class Start_Parse {
 		BufferedReader in;
 		StringBuffer tmp = new StringBuffer();
 		try{
-			//			in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8"));		//changed by goto 20130519 (This is an important change.)
-			//			String line = null;
-			//			line = in.readLine();
-			//			if(line.startsWith("/*")){
-			//				while (line.contains("/*")){
-			//					String line1 = line.substring(0, line.indexOf("/*"));
-			//					while (!line.contains("*/"))
-			//						line = in.readLine();
-			//					line = line1 + line.substring(line.indexOf("*/") + 2);
-			//				}
-			//				tmp.append(" " + line);
-			//			}
-			//
-			//			if(line.startsWith("--")){
-			//				while (line.contains("--")){
-			//					String line1 = line.substring(0, line.indexOf("--"));
-			//					line = in.readLine();
-			//				}
-			//				tmp.append(" " + line);
-			//			}
-			//			tmp.append(" " + line);
-			//			int c;
-			//			while ((c = in.read()) != -1) {
-			//				tmp.append((char) c);
-			//			}
-			//			query = tmp.toString().trim();
-			//			Log.info(query);
-			in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8"));		//changed by goto 20130519 (This is an important change.)
+			// TODO: java8以上だったらjava.nio.Files使いたい
+			in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), StandardCharsets.UTF_8));		//changed by goto 20130519 (This is an important change.)
 			int c;
 			while ((c = in.read()) != -1) {
 				tmp.append((char) c);
@@ -457,14 +434,18 @@ public class Start_Parse {
 				}
 			}
 		}
+		Log.out("list_from: " + list_from);
 		if (list_from.size() > 2){
+			// list_fromのsizeが2以上の場合はwhereがある場合とない場合がある
 			if(list_from.get(2) instanceof ExtList){
+				// whereがある場合 => トークン"From"とWhere句の間がFrom句(idx == 1)
 				if (list_from.getExtListString(2, 0).equals("where_clause")){
 					ExtList tmp = new ExtList();
 					tmp.add(list_from.getExtList(1));
 					From newFrom = new From(tmp);
 				}
 			}else{
+				// whereがない場合 => 以下全部From句なので2飛び(,を読み飛ばしている)で突っ込んでいく
 				ExtList tmp = new ExtList();
 				for (int i = 1; i < list_from.size(); i = i + 2) {
 					if(list_from.getExtListString(i, 0).equals("table_or_subquery")){
@@ -474,6 +455,7 @@ public class Start_Parse {
 				From newFrom = new From(tmp);
 			}
 		}else if(list_from.size() == 2){
+			// ちょうど2個だったらそこがFrom句のみ
 			ExtList tmp = new ExtList();
 			tmp.add(list_from.getExtList(1));
 			From newFrom = new From(tmp);
@@ -501,20 +483,24 @@ public class Start_Parse {
 		//from句に並んでるテーブルの属性名を取得
 		GetFromDB gfd = new GetFromDB();
 		GlobalEnv.tableAtts = new HashMap<>();
-		for (int i = 0; i < from_c.toString().split(",").length; i++) {
-			String tbl = from_c.toString().split(",")[i].trim();
-			String tblName = new String();
-			if(tbl.split(" ").length == 2){
-				tblName = tbl.split(" ")[0];
-			}else{
-				tblName = tbl;
+		if (From.hasFromItems()) {
+			for (FromTable ft: From.getFromItems()) {
+				String tableName = ft.getTableName();
+				ExtList result = new ExtList();
+				gfd.getTableAtt(tableName, result);
+				GlobalEnv.tableAtts.put(tableName, result.unnest());
 			}
-			ExtList result = new ExtList();
-			gfd.getTableAtt(tblName, result);
-			GlobalEnv.tableAtts.put(tblName, result.unnest());
+			for (JoinItem ji: From.getJoinItems()) {
+				String tableName = 	ji.table.getTableName();
+				ExtList result = new ExtList();
+				gfd.getTableAtt(tableName, result);
+				GlobalEnv.tableAtts.put(tableName, result.unnest());
+			}
 		}
+
 		gfd.close();
 		Log.out("[Parser:From] from = " + fromInfo);
+		Log.out("[Parser:TableAttributes] = " + GlobalEnv.tableAtts);
 		if (!(foreachFrom.equals(""))) {
 			Log.out(foreachFrom
 					+ ": Used in FOREACH clause and added to FROM clause ");
@@ -672,6 +658,7 @@ public class Start_Parse {
 				list_media = (ExtList) List_tree_b.get(0);
 				list_tfe = (ExtList) List_tree_b.get(1);
 				ruleNames = parser_b.getRuleNames();
+				Log.info(List_tree_b);
 				//				Log.info(getText(list_tfe, ruleNames));
 				if(List_tree_b.size() > 2){
 					list_from_where = (ExtList) List_tree_b.get(2);
@@ -730,7 +717,7 @@ public class Start_Parse {
 						after_from = from;
 					}
 //					Log.out(after_from);
-//					Log.info(list_from);
+					Log.info(list_from);
 					processKeywords(list_from);
 
 				}

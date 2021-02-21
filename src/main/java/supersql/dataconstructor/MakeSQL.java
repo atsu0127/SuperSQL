@@ -30,6 +30,7 @@ public class MakeSQL {
 		setFrom(p.get_from_info());
 		where = p.whereInfo;
 		atts = p.get_att_info();
+		// ここで利用しているtableをtgとして出している
 		MakeGroup mg = new MakeGroup(atts, where);
 		table_group = mg.getTblGroup();
 		Log.out("[MakeSQL:table_group]" + table_group);
@@ -143,9 +144,9 @@ public class MakeSQL {
 			//ryuryu(end)//////////////////////////////////////////////////////////////////////////////////////////
 
 			for (int j = 0; j < table_group.size(); j++) {
-//				Log.out("att1::"+att1.getUseTables());
-//				Log.out("able_group::"+table_group.get(j));
-//				Log.out("tg1::"+tg1);
+				Log.out("att1::"+att1.getUseTables());
+				Log.out("able_group::"+table_group.get(j));
+				Log.out("tg1::"+tg1);
 				if (((HashSet) (table_group.get(j))).containsAll(att1.getUseTables())) {
 					tg1.addAll((HashSet) table_group.get(j));
 				}
@@ -172,12 +173,6 @@ public class MakeSQL {
 
 		//tk to use outer join////
 		try{
-			//changed by goto 20120523 start
-			//���܂ł�SSQL�ł́A��ӂȑ����̏ꍇ�ł����Ă��K���������̑O��
-			//�u�e�[�u����.�v��t����(qualify����)�K�v��������
-			//���L�̕ύX�ɂ��A���̖������P����
-			//�i����ɂ��A�ʏ��SQL���l�A���j�[�N�ȗ񖼂̑O�ɂ�qualification�͕s�v�ƂȂ�j
-
 			buf.append(((FromParse) getFrom().getFromTable().get("")).getLine());
 			/*while (it.hasNext()) {
 				String tbl = (String) it.next();
@@ -198,11 +193,15 @@ public class MakeSQL {
 
 			//tk to use outer join//////////////
 		}catch(NullPointerException e){
+			// TODO: Joinの場合に未対応
+			// TODO: catchで処理しちゃダメ
 //			buf.append(getFrom().getLine());
 			//add tbt 180711
 			//not to use unused table in from clause
 			String fClauseBefore = getFrom().getLine();
 			String fClauseAfter = new String();
+			System.out.println("fClauseBefore: " + fClauseBefore);
+			// tgに含まれていないaliasのものは排除
 			if(!From.hasJoinItems()) {
 				for (String tb : fClauseBefore.split(",")) {
 					tb = tb.trim();
@@ -220,6 +219,7 @@ public class MakeSQL {
 				if (fClauseAfter.charAt(fClauseAfter.length() - 1) == ',') {
 					fClauseAfter = fClauseAfter.substring(0, fClauseAfter.length() - 1);
 				}
+				System.out.println("After: " + fClauseAfter);
 				buf.append(fClauseAfter);
 			}else{
 				buf.append(fClauseBefore);

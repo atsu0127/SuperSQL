@@ -13,7 +13,6 @@ public class HTMLC3 extends Connector {
 	private HTMLEnv htmlEnv;
 	private HTMLEnv htmlEnv2;
 
-	// ・ウ・�ケ・ネ・鬣ッ・ソ
 	public HTMLC3(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		this.htmlEnv = henv;
 		this.htmlEnv2 = henv2;
@@ -24,7 +23,6 @@ public class HTMLC3 extends Connector {
 		return "HTMLC3";
 	}
 
-	// C3、ホwork・皈ス・テ・ノ
 	@Override
 	public String work(ExtList data_info) {
 		//added by goto 20161019 for new foreach

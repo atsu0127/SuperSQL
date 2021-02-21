@@ -16,7 +16,6 @@ import javax.print.attribute.standard.RequestingUserName;
 
 import org.antlr.v4.codegen.CodeGenerator;
 import org.antlr.v4.parse.ANTLRParser.ruleAltList_return;
-import org.apache.derby.tools.sysinfo;
 import org.apache.log4j.net.SyslogAppender;
 import org.jsoup.safety.Cleaner;
 import org.junit.Ignore;

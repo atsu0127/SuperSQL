@@ -21,7 +21,6 @@ public class HTMLG2 extends Grouper implements Serializable {
 	// int counter = 0;
 	// int level = 0;
 
-	// ���󥹥ȥ饯��
 	public HTMLG2(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		this.html_env = henv;
 		this.html_env2 = henv2;
@@ -33,7 +32,6 @@ public class HTMLG2 extends Grouper implements Serializable {
 		return "HTMLG2";
 	}
 
-	// G2��work�᥽�å�
 	@Override
 	public String work(ExtList data_info) {
 

@@ -55,7 +55,7 @@ public class DataConstructor {
 		// Make schema
 		sep_sch = parser.sch;
 		GlobalEnv.afterMakeSch = System.currentTimeMillis();
-//		Log.info("Schema: " + sep_sch);
+		Log.info("Schema: " + sep_sch);
 
 		// Check Optimization Parameters
 		if (GlobalEnv.getOptLevel() == 0 || !GlobalEnv.isOptimizable()
@@ -87,12 +87,17 @@ public class DataConstructor {
 		WhereInfo wi = parser.whereInfo;
 		GlobalEnv.relatedTableSet = new HashMap<>();
 		HashMap<String, String> tblList = new HashMap<>();//alias=tblname
+		// where句とJoin句の関係からテーブル同士の関連を取得する
 		if(From.hasFromItems()){
 			List<FromTable> fts = From.getFromItems();
 			if(From.hasJoinItems()){
+				// Joinがあるときは最初がFromTableであとはJoinItem
 				List<JoinItem> jis = From.getJoinItems();
+				// 最初のFromTableを登録
 				FromTable ft = fts.get(0);
 				tblList.put(ft.getAlias(), ft.getTableName());
+
+				// tableListには利用したテーブルのaliasを登録
 				ArrayList<ArrayList<String>> constraints = new ArrayList<>();
 				ArrayList<String> tableList = new ArrayList<>();
 				tableList.add(ft.getAlias());
@@ -106,6 +111,9 @@ public class DataConstructor {
 					tblList.put(ji.table.getAlias(), ji.table.getTableName());
 					tableList.add(ji.table.getAlias());
 				}
+				System.out.println("tblList = " + tblList);
+				System.out.println("tableList = " + tableList);
+				System.out.println("constraints = " + constraints);
 				for (int i = 0; i < tableList.size(); i++) {
 					String alias = tableList.get(i);
 					ArrayList<String> relatedTables = new ArrayList<>();
@@ -172,6 +180,10 @@ public class DataConstructor {
 				}
 			}
 		}
+		Log.out("[DC: relatedTableSet] = " + GlobalEnv.relatedTableSet);
+
+		// テーブルのサイズを持ってきてサイズ順に並べる
+		// 要らなくない？
 		if(GlobalEnv.isOrderFrom() || GlobalEnv.isMultiGB()) {
 			GetFromDB gfd = new GetFromDB();
 			//テーブル毎のメタ情報入手
@@ -215,8 +227,6 @@ public class DataConstructor {
 			Long endGTI = System.currentTimeMillis();
 
 			Log.info("Getting table info Time taken: " + (endGTI - startGTI) + "ms");
-//			System.out.println("attType:::" + GlobalEnv.attType);
-//			System.out.println("tblSize:::" + GlobalEnv.tableSize);
 		}
 //		System.out.println("relatedTableSet:::"+GlobalEnv.relatedTableSet);
 
@@ -370,7 +380,7 @@ public class DataConstructor {
 //							Log.info("Make All Pattern Time taken: " + (makeAllPatternEnd - makeAllPatternStart) + "ms");
 						}
 						ExtList flatResult = new ExtList(q.getResult());
-//						q.showDebug();
+						q.showDebug();
 						ExtList sep_bak = new ExtList();
 						copySepSch(q.sep_sch, sep_bak);
 //						Log.info("Making Tree");
@@ -1057,7 +1067,6 @@ public class DataConstructor {
 
 		// MakeSQL
 		long start, end;
-		start = System.nanoTime();
 		//tbt add 180601
 		// Connect to DB
 		start = System.nanoTime();
@@ -1087,9 +1096,12 @@ public class DataConstructor {
 				isForest = false;
 			}
 		}
-//		System.out.println("isForest:::"+isForest);
  		GlobalEnv.qbs = new ArrayList<>();
+
+ 		// ここでSQL作ってる
+		// TODO: ここからQBの挙動漁る
 		if (!GlobalEnv.isMultiQuery()) {
+			// -multiqueryがない or Ctabじゃなかったらこっち
 			makesql_start = System.currentTimeMillis();
 			SQL_queries = new ArrayList<>();
 			if(GlobalEnv.isNoForestDiv() || !isForest){
@@ -1193,6 +1205,7 @@ public class DataConstructor {
 		}
 		end = System.nanoTime();
 		exectime[MAKESQL] = end - start;
+		System.out.println("fromGroupQBS: " + fromGroupQBS);
 		Log.out("## SQL Query ##");
 		if (!GlobalEnv.isMultiQuery() && !GlobalEnv.isMultiGB()) {
 			for (int i = 0; i < SQL_queries.size(); i++) {

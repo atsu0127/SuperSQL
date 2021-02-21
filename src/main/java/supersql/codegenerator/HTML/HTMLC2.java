@@ -19,7 +19,6 @@ public class HTMLC2 extends Connector implements Serializable {
 	private HTMLEnv htmlEnv;
 	private HTMLEnv htmlEnv2;
 
-	// 鐃緒申鐃藷ストラク鐃緒申
 	public HTMLC2(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		this.htmlEnv = henv;
 		this.htmlEnv2 = henv2;
@@ -30,7 +29,6 @@ public class HTMLC2 extends Connector implements Serializable {
 		return "HTMLC2";
 	}
 
-	// C2鐃緒申work鐃潤ソ鐃獣ワ申
 	@Override
 	public String work(ExtList data_info) {
 		Log.out("------- C2 -------");

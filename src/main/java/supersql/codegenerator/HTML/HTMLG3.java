@@ -34,7 +34,6 @@ public class HTMLG3 extends Grouper {
 
 	private HTMLEnv html_env2;
 
-	// ���󥹥ȥ饯��
 	public HTMLG3(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		this.html_env = henv;
 		this.html_env2 = henv2;
@@ -67,7 +66,6 @@ public class HTMLG3 extends Grouper {
 		return "HTMLG3";
 	}
 
-	// G3��work�᥽�å�
 	@Override
 	public String work(ExtList data_info) {
 

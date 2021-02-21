@@ -31,7 +31,6 @@ public class HTMLDecoration extends Decorator {
 		return "HTMLDecoration";
 	}
 
-	// Decoration��work�᥽�å�
 	@Override
 	public String work(ExtList data_info) {
 		Log.out("------- Decoration -------");

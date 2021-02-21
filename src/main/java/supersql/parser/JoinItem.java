@@ -9,10 +9,10 @@ import net.sf.jsqlparser.statement.select.Join;
 
 public class JoinItem {
     public String method;
-    public ArrayList<ConstraintItem> constraint;
-    public FromTable table;
+    public ArrayList<ConstraintItem> constraint; // joinの場合の条件が入る
+    public FromTable table; // テーブル情報
     private String statement;
-    private boolean isSimple = true;
+    private boolean isSimple = true; // JOINではなくカンマつなぎならtrue
 
     public JoinItem(Join join){
         statement = join.toString();
@@ -20,11 +20,12 @@ public class JoinItem {
         if(!join.isSimple()){
             List<String> joinList = Arrays.asList(join.toString().split(" "));
             int idx = joinList.indexOf("JOIN");
-            method = new String();
+            StringBuilder buffer = new StringBuilder();
             for (int i = 0; i <= idx; i++) {
-                method += (joinList.get(i) + " ");
+                buffer.append(joinList.get(i) + " ");
             }
-            method.trim();
+            this.method = buffer.toString().trim();
+            // 条件をconstraintとして保持
             Constraint constraints = new Constraint(join.getOnExpression().toString());
             constraint = constraints.constraints;
             isSimple = false;
@@ -32,6 +33,7 @@ public class JoinItem {
         table = new FromTable(join.getRightItem().toString());
     }
 
+    // constraint経由で使ってるテーブル全部持ってくる
     public ArrayList<ArrayList<String>> getUseTables(){
         ArrayList<ArrayList<String>> useTables = new ArrayList<>();
         for (ConstraintItem ci: constraint){
