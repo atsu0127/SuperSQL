@@ -709,12 +709,6 @@ public class QueryBuffer {
 //        Log.info("headSet:::"+headSet);
 //        Log.info("sideSet:::"+sideSet);
 //        Log.info("result:::"+result.size());
-        //sideSet*headSetの数がresultの数と同じなら終わり
-        int addNum = (headSet.size() * sideSet.size()) - result.size();
-        if(headSet.size() * sideSet.size() == result.size()){
-//            Log.info("\tNo Additional Pattern");
-            return;
-        }
         //ここから全通りの組み合わせを作る
         //順番はその他の値→side→head
 //        System.out.println("size:::"+size);
@@ -771,66 +765,53 @@ public class QueryBuffer {
 //        Log.info("\tMaking All Data");
         Long makedStart = System.currentTimeMillis();
         ExtList result_copy = new ExtList(result);
+        // 以下でnullの時の値を入れている
         for (int i = 0; i < allPattern_sidehead.size(); i++) {
+            // 表頭・表側の全組み合わせに対して
             ExtList one = allPattern_sidehead.getExtList(i);
+            // diffは値が何個入るか計算してる
             int diff = one.size();
             diff -= result.getExtList(0).size();
             diff *= -1;
             boolean contain2 = false;
 //               Log.info("result::: " + result);
 //            System.out.println("result_copy:::" + result_copy);]
-//            Long startloop1 = System.currentTimeMillis();
-//            int loop1 = 0;
             for (int j = 0; j < result_copy.size(); j++) {
-//                loop1++;
                 boolean same = true;
                 ExtList result_one = result_copy.getExtList(j);
 //                if (result_one.toString().trim().contains(one.toString().trim())){
 //                    same = true;
 //                }
-                Long startloop2 = System.currentTimeMillis();
-//                int loop2 = 0;
+                // resultとall patternを比較して一致するかどうかを確認
                 for (int k = 0; k < one.size(); k++) {
-//                    loop2++;
                     if (!result_one.getExtListString(k).equals(one.get(k))) {
                         same = false;
                         break;
                     }
                 }
-                Long endloop2 = System.currentTimeMillis();
-//                Log.info("\t\t\tLOOP2 Time taken: " + (endloop2 - startloop2) + "ms");
-//                Log.info("\t\t\tLOOP2 NUM: "+ loop2);
+                // 一致したら削除 & 一致したことを示すフラグ立てる(contain2)
                 if (same) {
                     contain2 = true;
                     result_copy.remove(j);
                     break;
                 }
             }
-//            Long endloop1 = System.currentTimeMillis();
-//            Log.info("\t\tLOOP1 Time taken: " + (endloop1 - startloop1) + "ms");
-//            Log.info("\t\tLOO1 NUM: " + loop1);
             if (!contain2) {
+                // 含まれていなかったらそのpatternにnullValueいれる
                 ExtList tmp = (ExtList) one.clone();
                 for (int j = 0; j < diff; j++) {
                     tmp.add(nullValue);
                 }
 //                System.out.print("\tADD");
 //                System.out.println(" " + addNum + " ");
-                addNum--;
                 result.add(tmp);
-            }else{
-//                System.out.print("\tNOADD");
-//                System.out.println(" " + result.size() + " ");
-            }
-            if (addNum == 0){
-                break;
             }
         }
         Long makedEnd = System.currentTimeMillis();
 //        Log.info("\tMaking All Data Time taken:" + (makedEnd - makedStart) + "ms");
 //        }
         this.result = result;
-//        Log.info("resultFinal:::"+result.size());
-        Log.info("finalresult:::"+result);
+//        Log.info("size:::"+result.size());
+//        Log.info("finalresult:::"+result);
     }
 }
