@@ -55,7 +55,6 @@ public class DataConstructor {
 		// Make schema
 		sep_sch = parser.sch;
 		GlobalEnv.afterMakeSch = System.currentTimeMillis();
-		Log.info("Schema: " + sep_sch);
 
 		// Check Optimization Parameters
 		if (GlobalEnv.getOptLevel() == 0 || !GlobalEnv.isOptimizable()
@@ -111,9 +110,6 @@ public class DataConstructor {
 					tblList.put(ji.table.getAlias(), ji.table.getTableName());
 					tableList.add(ji.table.getAlias());
 				}
-				System.out.println("tblList = " + tblList);
-				System.out.println("tableList = " + tableList);
-				System.out.println("constraints = " + constraints);
 				for (int i = 0; i < tableList.size(); i++) {
 					String alias = tableList.get(i);
 					ArrayList<String> relatedTables = new ArrayList<>();
@@ -380,7 +376,7 @@ public class DataConstructor {
 //							Log.info("Make All Pattern Time taken: " + (makeAllPatternEnd - makeAllPatternStart) + "ms");
 						}
 						ExtList flatResult = new ExtList(q.getResult());
-						q.showDebug();
+//						q.showDebug();
 						ExtList sep_bak = new ExtList();
 						copySepSch(q.sep_sch, sep_bak);
 //						Log.info("Making Tree");
@@ -1205,7 +1201,6 @@ public class DataConstructor {
 		}
 		end = System.nanoTime();
 		exectime[MAKESQL] = end - start;
-		System.out.println("fromGroupQBS: " + fromGroupQBS);
 		Log.out("## SQL Query ##");
 		if (!GlobalEnv.isMultiQuery() && !GlobalEnv.isMultiGB()) {
 			for (int i = 0; i < SQL_queries.size(); i++) {

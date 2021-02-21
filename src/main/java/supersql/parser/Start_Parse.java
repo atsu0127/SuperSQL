@@ -472,11 +472,11 @@ public class Start_Parse {
 		}
 
 		groupStatement = group_c.toString();
-		Log.out("[Paeser:Group] group = " + groupStatement);
+		Log.out("[Parser:Group] group = " + groupStatement);
 		group_c.append(embedGroup + " ");
 
 		havingStatement = having_c.toString();
-		Log.out("[Paeser:Having] having = " + havingStatement);
+		Log.out("[Parser:Having] having = " + havingStatement);
 		having_c.append(embedGroup + " ");
 
 		fromInfo = new FromInfo(from_c.toString().trim());
@@ -565,7 +565,6 @@ public class Start_Parse {
 				String a = query.substring(0, query.toLowerCase().indexOf("generate"));
 				String b = query.substring(query.toLowerCase().indexOf("generate"));
 //				Log.info(a);
-				Log.info(b);
 				VRcjoinarray.query = b;
 
 				if(a.equals(" ") || a.equals("") || a.equals("\r")){
@@ -579,7 +578,6 @@ public class Start_Parse {
 					ParseTree tree_a = parser_a.prefix(); // begin parsing at rule query
 					List_tree_a = TreeConst.createSSQLParseTree(tree_a, parser_a);
 					String[] ruleNamesa = parser_a.getRuleNames();
-					Log.info(List_tree_a);
 					int list_size = ((ExtList)List_tree_a.get(1)).size();
 					for(int i = 0; i < list_size; i+=2){
 						ExtList list = (ExtList)((ExtList)((ExtList)((ExtList)List_tree_a.get(1)).get(i)).get(1)).get(0);
@@ -658,7 +656,6 @@ public class Start_Parse {
 				list_media = (ExtList) List_tree_b.get(0);
 				list_tfe = (ExtList) List_tree_b.get(1);
 				ruleNames = parser_b.getRuleNames();
-				Log.info(List_tree_b);
 				//				Log.info(getText(list_tfe, ruleNames));
 				if(List_tree_b.size() > 2){
 					list_from_where = (ExtList) List_tree_b.get(2);
@@ -717,7 +714,6 @@ public class Start_Parse {
 						after_from = from;
 					}
 //					Log.out(after_from);
-					Log.info(list_from);
 					processKeywords(list_from);
 
 				}

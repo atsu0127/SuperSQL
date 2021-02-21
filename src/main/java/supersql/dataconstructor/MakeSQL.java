@@ -200,7 +200,6 @@ public class MakeSQL {
 			//not to use unused table in from clause
 			String fClauseBefore = getFrom().getLine();
 			String fClauseAfter = new String();
-			System.out.println("fClauseBefore: " + fClauseBefore);
 			// tgに含まれていないaliasのものは排除
 			if(!From.hasJoinItems()) {
 				for (String tb : fClauseBefore.split(",")) {
@@ -219,7 +218,6 @@ public class MakeSQL {
 				if (fClauseAfter.charAt(fClauseAfter.length() - 1) == ',') {
 					fClauseAfter = fClauseAfter.substring(0, fClauseAfter.length() - 1);
 				}
-				System.out.println("After: " + fClauseAfter);
 				buf.append(fClauseAfter);
 			}else{
 				buf.append(fClauseBefore);
