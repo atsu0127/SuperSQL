@@ -28,16 +28,14 @@ public class GlobalEnv {
 
 	public static final char COMMENT_OUT_LETTER = '-';	//コメントアウト等による利用(ex: -- )
 
-	/* [����] getProperty�᥽�åɤˤ�äơ������ƥ�ץ�ѥƥ�����(OS���ե�������ڤ�ʸ��ۡ��ࡢ����ʤ�)����� */
-	/* �����ƥ�ץ�ѥƥ��Ͱ����μ���: System.getProperties().list(System.out); */
-	public final static String USER_HOME = System.getProperty("user.home");				//�桼���Υۡ���ǥ��쥯�ȥ�
-	public final static String OS = System.getProperty("os.name");						//OS��̾��("Mac OS X" ��)
-	public final static String OS_LS = System.getProperty("line.separator");			//OS���Ȥβ��ԥ�����(Windows:"\r\n",Mac:"\r",UNIX:"\n" ��)
-	public final static String OS_FS = System.getProperty("file.separator");			//OS���ȤΥե�������ڤ�ʸ��(Windows:"\" , Mac��Linux:"/" ��)
-	public final static String OS_PS = System.getProperty("path.separator");			//OS���ȤΥѥ����ڤ�ʸ��(Windows";" , Mac��Linux":" ��)
-	public final static String EXE_FILE_PATH = getCurrentPath();	//�¹ԥե�����Υѥ�(�¹�jar�ե�������ɤ��ˤ��뤫)����� (�����:���Хѥ����֤äƤ����礢��)
-	public final static String USER_LANGUAGE = System.getProperty("user.language");		//�桼���θ���(���ܸ�:ja)  ���ܸ졦�Ѹ��ڤ��ؤ���ǽ���դ���Ȥ��˻��ѡ�
-	public final static String USER_COUNTRY = System.getProperty("user.country");		//�桼���ι�̾(����:JP)   ���ܸ졦�Ѹ��ڤ��ؤ���ǽ���դ���Ȥ��˻��ѡ�
+	public final static String USER_HOME = System.getProperty("user.home");
+	public final static String OS = System.getProperty("os.name");
+	public final static String OS_LS = System.getProperty("line.separator");
+	public final static String OS_FS = System.getProperty("file.separator");
+	public final static String OS_PS = System.getProperty("path.separator");
+	public final static String EXE_FILE_PATH = getCurrentPath();
+	public final static String USER_LANGUAGE = System.getProperty("user.language");
+	public final static String USER_COUNTRY = System.getProperty("user.country");
 
 	public final static String MEDIA_XML = System.getProperty("user.dir")+OS_FS+"XML"+OS_FS+"ssql_medias.xml";
 
@@ -59,7 +57,6 @@ public class GlobalEnv {
 	public static ArrayList<String> medialist= new ArrayList<>();//.ssql-unityのファイル 拡張子は除去してメディア名だけにする
 	public static ArrayList<String> multifilecon= new ArrayList<>();//fileの中身(contents)　要素ごとにファイルの中身がある
 
-	//����ե�����ξ���
 	private static String layout = "";
 
 	private static String host;
@@ -188,7 +185,7 @@ public class GlobalEnv {
 		}
 
 		//added by goto 20120707 start
-		//optimize level　"-O0,-O1,-O2,-O3"
+		//optimize level "-O0,-O1,-O2,-O3"
 		//optimize level が設定されていればオプションを書き直す
 		for (int i = 0; i <= 3; i++)
 		if(envs.containsKey("-O"+i)){
@@ -478,7 +475,6 @@ public class GlobalEnv {
 		return ret;
 	}
 
-	//��³����DB��url
 	public static String geturl() {
 		//added by goto 20141204
 		if(getDriverName() != null)	driver = getDriverName();
@@ -518,7 +514,6 @@ public class GlobalEnv {
 		return ret;
 	}
 
-	//��³����ɥ饤�ФΥѥ����
 	public static String getpassword() {
 		String ret = seek("-p");
 		if (ret == null) {
@@ -531,7 +526,6 @@ public class GlobalEnv {
 		return ret;
 	}
 
-	//���ϥե������encode
 	public static String getencode() {
 		String ret;
 		if (encode != null) {
@@ -713,9 +707,7 @@ public class GlobalEnv {
 
 		return c_value;
 	}
-	/**
-	* ����ʸ��������ʸ��WHERE��˲ä���
-	*/
+
 	public static String getCondition() {
 		return seek("-cond");
 	}
@@ -740,10 +732,7 @@ public class GlobalEnv {
 	public static String getCacheLevel() {
 		return seek("-cacheLevel");
 	}
-
-	/**
-	* Invoke�Υ����֥�åȤ�path
-	*/
+	
 	public static String getInvokeServletPath() {
 		String is = seek("-invokeservletpath");
 

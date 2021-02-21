@@ -12,8 +12,6 @@ import supersql.codegenerator.IfCondition;
 import supersql.codegenerator.Manager;
 import supersql.codegenerator.TFE;
 
-//Operator, Manager鐃緒申鐃緒申鐃緒申鐃緒申鐃暑ク鐃初ス
-
 public class HTMLFactory extends Factory implements Serializable{
 
 	public static HTMLEnv htmlEnv;

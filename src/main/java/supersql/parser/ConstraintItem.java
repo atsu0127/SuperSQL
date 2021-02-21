@@ -34,7 +34,6 @@ public class ConstraintItem {
             try {
                 Integer.parseInt(state.trim().split(" ")[1 - diff]);
                 attLeft = "";
-
             } catch (NumberFormatException e) {
                 attLeft = state.trim().split(" ")[1 - diff];
             }

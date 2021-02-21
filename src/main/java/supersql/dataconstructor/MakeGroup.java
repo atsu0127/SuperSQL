@@ -66,6 +66,7 @@ public class MakeGroup {
 			result.add(tbl1);
 		}
 		tbl_group = new ExtList(result);
+		System.out.println("tbl_group: " + tbl_group);
 	}
 
 	@Override

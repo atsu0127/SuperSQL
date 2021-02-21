@@ -2,9 +2,6 @@ package supersql.codegenerator.VR;
 
 import java.util.ArrayList;
 
-import org.datanucleus.store.rdbms.exceptions.NullValueException;
-import org.stringtemplate.v4.compiler.STParser.ifstat_return;
-
 import supersql.common.GlobalEnv;
 
 public class VRcjoinarray {

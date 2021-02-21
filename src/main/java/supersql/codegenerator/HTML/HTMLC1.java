@@ -21,7 +21,6 @@ public class HTMLC1 extends Connector implements Serializable {
 	private HTMLEnv htmlEnv;
 	private HTMLEnv htmlEnv2;
 
-	// ���󥹥ȥ饯��
 	public HTMLC1(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		this.htmlEnv = henv;
 		this.htmlEnv2 = henv2;
@@ -32,7 +31,6 @@ public class HTMLC1 extends Connector implements Serializable {
 		return "HTMLC1";
 	}
 
-	// C1��work�᥽�å�
 	@Override
 	public String work(ExtList data_info) {
 		Log.out("------- C1 -------");
@@ -129,7 +127,6 @@ public class HTMLC1 extends Connector implements Serializable {
 					htmlEnv.code.append(htmlEnv.tableBorder + "\"");
 					htmlEnv.code.append(htmlEnv.getOutlineMode());
 	
-					// classid������Ȥ��ˤ�������
 					if (htmlEnv.writtenClassId.contains(HTMLEnv.getClassID(this))) {
 						htmlEnv.code.append(" class=\"");
 						htmlEnv.code.append(HTMLEnv.getClassID(this));

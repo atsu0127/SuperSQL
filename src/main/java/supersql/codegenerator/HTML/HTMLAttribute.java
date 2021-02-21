@@ -28,7 +28,6 @@ public class HTMLAttribute extends Attribute {
 
 	// private boolean tableFlg = false;
 	// private boolean divFlg = false;
-	// 鐃緒申鐃藷ストラク鐃緒申
 	public HTMLAttribute(Manager manager, HTMLEnv henv, HTMLEnv henv2) {
 		super();
 		this.htmlEnv = henv;
@@ -399,7 +398,6 @@ public class HTMLAttribute extends Attribute {
 		return ret;
 	}
 
-	// Attribute鐃緒申work鐃潤ソ鐃獣ワ申
 	@Override
 	public String work(ExtList data_info) {
 		/*
@@ -498,12 +496,6 @@ public class HTMLAttribute extends Attribute {
 						s += "<div id=\"container\">";
 
 					// added by goto 20120614 start
-					// [%Ϣ���
-					// ������2�Ĥ����꤬���ä����ᡢhref�λ�������Хѥ���������Хѥ������פ��ѹ�
-					// 1.���Хѥ�����Firefox�Ǥϥ����
-					// ������ʤ�
-					// 2.ITC�μ½��Ķ��Ǥϥ����
-					// ������ʤ�
 					String fileDir = new File(htmlEnv.linkUrl)
 							.getAbsoluteFile().getParent();
 					if (fileDir.length() < htmlEnv.linkUrl.length()

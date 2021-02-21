@@ -4,20 +4,13 @@
 	http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jp.ac.keio.ics.db.ssql</groupId>
-	<artifactId>newssql</artifactId>
+	<artifactId>supersql</artifactId>
 	<version>1.0</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<junit.jupiter.version>5.0.2</junit.jupiter.version>
 	</properties>
-	<repositories>
-		<repository>
-			<id>cloudera</id>
-			<name>cloudera</name>
-			<url>https://repository.cloudera.com/content/repositories/releases/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -116,18 +109,6 @@
 			<artifactId>junit-platform-launcher</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.hive/hive-jdbc -->
-		<dependency>
-			<groupId>org.apache.hive</groupId>
-			<artifactId>hive-jdbc</artifactId>
-			<version>1.1.0-cdh5.15.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-common</artifactId>
-			<version>2.6.0-cdh5.15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rosuda.JRI</groupId>

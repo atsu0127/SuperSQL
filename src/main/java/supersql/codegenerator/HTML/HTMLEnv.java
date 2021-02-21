@@ -991,10 +991,8 @@ public class HTMLEnv extends LocalEnv implements Serializable{
 			}
 
 			css.append(cssbuf);
-			// ������?��������������������?��������
 			css.append(" }\n");
 
-			// ������������������?������?����������������������id����������������������������������
 			writtenClassId.addElement(classid);
 		} else {
 			Log.out("==> style is null. not created style");
