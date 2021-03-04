@@ -171,7 +171,7 @@ public class QueryBuffer {
         this.selectClause = buf.toString().substring(buf.toString().indexOf("SELECT")).trim();
 
 //        System.out.println("relatedGLO:::"+GlobalEnv.relatedTableSet);
-//        System.out.println("usedTables:::"+usedTables);
+//        System.out.println("usedTables:::"+this.UsedTables);
         makeUsedTables(this.UsedTables);
 
 //        System.out.println("relateSet:::"+GlobalEnv.relatedTableSet);
@@ -462,8 +462,14 @@ public class QueryBuffer {
                     usedTables.add(att.substring(att.indexOf("(") + 1, att.indexOf(")") - 1).split("\\.")[0].trim());
                 }
             }else {
-                if (!usedTables.contains(att.split("\\.")[0])) {
+                if (att.contains(".") && !usedTables.contains(att.split("\\.")[0])) {
                     usedTables.add(att.split("\\.")[0]);
+                } else if (!att.contains(".")) {
+                    for(Map.Entry<String, ExtList> e: GlobalEnv.tableAtts.entrySet()) {
+                        if (e.getValue().contains(att) && !usedTables.contains(e.getKey().trim())) {
+                            usedTables.add(e.getKey().trim());
+                        }
+                    }
                 }
             }
         }
