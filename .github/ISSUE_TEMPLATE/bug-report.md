@@ -12,7 +12,7 @@ assignees: atsu0127
 ## 再現方法
 - 問題の発生したクエリ
 ```
-GENERATE HTML ~
+GENERATE HTML ~
 ```
 - エラー文 or 実行結果のスクショ
 
