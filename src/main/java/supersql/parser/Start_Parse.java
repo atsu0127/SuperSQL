@@ -488,13 +488,13 @@ public class Start_Parse {
 				String tableName = ft.getTableName();
 				ExtList result = new ExtList();
 				gfd.getTableAtt(tableName, result);
-				GlobalEnv.tableAtts.put(tableName, result.unnest());
+				GlobalEnv.tableAtts.put(tableName.trim(), result.unnest());
 			}
 			for (JoinItem ji: From.getJoinItems()) {
 				String tableName = 	ji.table.getTableName();
 				ExtList result = new ExtList();
 				gfd.getTableAtt(tableName, result);
-				GlobalEnv.tableAtts.put(tableName, result.unnest());
+				GlobalEnv.tableAtts.put(tableName.trim(), result.unnest());
 			}
 		}
 

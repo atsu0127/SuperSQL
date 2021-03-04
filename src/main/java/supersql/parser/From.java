@@ -54,7 +54,7 @@ public class From {
             if(listFrom.get(i) instanceof ExtList){
                 name = Start_Parse.getText(listFrom.getExtList(i), Start_Parse.ruleNames);
                 Start_Parse.builder = "";
-                FromTable fromTable = new FromTable(name);
+                FromTable fromTable = new FromTable(name.trim());
                 fromItems.add(fromTable);
             }else{
                 name = ", ";
@@ -75,7 +75,7 @@ public class From {
             Select select = (Select) stmt;
             PlainSelect pselect = (PlainSelect) select.getSelectBody();
             // 最初の一個は普通にいれる
-            FromTable fromTable = new FromTable(pselect.getFromItem().toString());
+            FromTable fromTable = new FromTable(pselect.getFromItem().toString().trim());
             fromItems.add(fromTable);
             // そのあとはJoinItemになる
             for (int i = 0; i < pselect.getJoins().size(); i++) {

@@ -1,10 +1,6 @@
 package supersql.dataconstructor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import supersql.codegenerator.AttributeItem;
 import supersql.common.GlobalEnv;
@@ -324,12 +320,12 @@ public class MakeSQL {
 
 		//make query buffer. the numbers of qb is agg_set.size()
 		ArrayList<QueryBuffer> qbs = new ArrayList<>();
-		String from_line = getFrom().getLine();
-		Hashtable table_alias = new Hashtable();
-		//table_alias is hashtable like {table_alias=table_name, ...}
-		for(String f:from_line.split(",")){
-			table_alias.put(f.trim().split(" ")[1], f.trim().split(" ")[0]);
-		}
+//		String from_line = getFrom().getLine();
+//		Map<String, String> table_alias = new HashMap();
+//		//table_alias is hashmap like {table_alias=table_name, ...}
+//		for(String f:from_line.split(",")){
+//			table_alias.put(f.trim().split(" ")[1], f.trim().split(" ")[0]);
+//		}
 		ArrayList<String> usedAtts = new ArrayList<>();
 		boolean noagg = true;
 		for(int i = 0; i < agg_set.size(); i++) {
@@ -439,8 +435,14 @@ public class MakeSQL {
 			HashSet<String> tg = new HashSet<>();
 			for(Map.Entry<Integer, String> entry: att_set.entrySet()) {
 				String name = entry.getValue();
-				if(!tg.contains(name.split("\\.")[0])) {
+				if(name.contains(".") && !tg.contains(name.split("\\.")[0])) {
 					tg.add(name.split("\\.")[0]);
+				} else if (!tg.contains(name.trim())) {
+					for(Map.Entry<String, ExtList> e: GlobalEnv.tableAtts.entrySet()) {
+						if (e.getValue().contains(name)) {
+							tg.add(e.getKey().trim());
+						}
+					}
 				}
 			}
 			qb.setTg(tg);

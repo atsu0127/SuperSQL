@@ -147,7 +147,7 @@ public class DataConstructor {
 							}
 						}
 					}
-					GlobalEnv.relatedTableSet.put(alias, relatedTables);
+					GlobalEnv.relatedTableSet.put(alias.trim(), relatedTables);
 				}
 			}else{
 //				System.out.println(fts.size());
@@ -172,7 +172,7 @@ public class DataConstructor {
 							}
 						}
 					}
-					GlobalEnv.relatedTableSet.put(alias, relatedTables);
+					GlobalEnv.relatedTableSet.put(alias.trim(), relatedTables);
 				}
 			}
 		}
