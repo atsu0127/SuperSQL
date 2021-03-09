@@ -13,7 +13,7 @@ check-bin: tarball rpm-test
 tarball:
 	@echo "Creating tarball"
 	mkdir -p $(BUILDDIR)/{SOURCES,BUILD,SRPMS,RPMS} $(BUILDDIR)/SRPMS/$(PACKAGE_ARCH) $(BUILDDIR)/RPMS/$(PACKAGE_ARCH)
-	mvn clean package
+	./mvnw clean package
 	mv $(CURDIR)/target/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-bin.tar.gz $(BUILDDIR)/SOURCES/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 
 rpm:
