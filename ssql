@@ -1,0 +1,92 @@
+#!/bin/sh
+
+#supersql.jarの位置指定
+ROOTDIR=/opt/SuperSQL
+
+#オプションのチェック
+files=()
+conf=""
+options=()
+VMs=()
+FLAG_filespace=
+FLAG_confspace=
+for OPT in "$@"
+do
+	case "$OPT" in
+		'-f' )
+			FLAG_file=1
+			FLAG_filespace=1
+			FLAG_confspace=
+			;;
+		'-c' )
+			FLAG_filespace=
+			FLAG_confspace=1
+			FLAG_conf=1
+			;;
+		'-v' | '--version' | '-version' )
+			FLAG_filespace=
+			FLAG_confspace=
+			FLAG_version=1
+			;;
+		-D*)
+			VMs+=($OPT)
+			;;
+		-* )
+			FLAG_filespace=
+			FLAG_confspace=
+			options+=($OPT)
+			;;
+		* )
+			if [ "$FLAG_filespace" ]; then
+				files+=($OPT)
+			elif [ "$FLAG_confspace" ]; then
+				conf=$OPT
+			else
+				options+=($OPT)
+			fi
+			;;
+	esac
+	shift
+done
+
+if [ "$FLAG_version" ]; then
+	echo "java -cp $ROOTDIR/lib/* supersql.FrontEnd -v"
+	java -cp $ROOTDIR/lib/* supersql.FrontEnd -v
+	exit 0
+fi
+
+files_full=()
+#ssqlファイル指定
+for file in ${files[@]}
+do
+	if [ ! -e $file ]; then
+   		echo "Not found: $file"
+   		exit 1
+	fi
+	cd `dirname $file`
+	file_path=`pwd`/`basename $file`
+	files_full+=($file_path)
+done
+
+#configファイル
+if [ "$FLAG_conf" ]; then
+	if [ ! -e $conf ]; then
+   		echo "Not found: $conf"
+   		exit 1
+	fi
+	cd `dirname $conf`
+	conf_path=`pwd`/`basename $conf`
+	options+=("-c" $conf_path)
+fi
+
+for o in ${options[@]}
+do
+	option_str+="${o} "
+done
+
+
+for file in ${files_full[@]}
+do
+	echo "java ${VMs} -cp $ROOTDIR/lib/* supersql.FrontEnd -f ${file} ${option_str}"
+	java $VMs -cp $ROOTDIR/libs/* supersql.FrontEnd -f $file $option_str
+done
