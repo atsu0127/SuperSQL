@@ -5,11 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.regex.Pattern;
 
-//import jdk.nashorns.internal.objects.Global;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,8 +19,6 @@ import supersql.db.GetFromDB;
 import supersql.extendclass.ExtList;
 import supersql.extendclass.QueryBuffer;
 import supersql.parser.*;
-
-import javax.xml.bind.SchemaOutputResolver;
 
 public class DataConstructor {
 
