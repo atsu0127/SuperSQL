@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 	http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>jp.ac.keio.ics.db.ssql</groupId>
+	<groupId>atsutomo.tabata</groupId>
 	<artifactId>supersql</artifactId>
 	<version>1.0</version>
 	<properties>
@@ -26,11 +26,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0-b05</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.ecf</groupId>
-			<artifactId>org.apache.log4j</artifactId>
-			<version>1.2.15.v201012070815</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.db2.jcc</groupId>
@@ -121,27 +116,22 @@
 	<build>
 		<plugins>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                        	<goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>supersql.FrontEnd</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>bin.xml</descriptor>
+					<tarLongFileMode>gnu</tarLongFileMode>
+					<finalName>${project.artifactId}-${project.version}</finalName>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -150,6 +140,20 @@
 	        		<source>1.8</source>
 					<target>1.8</target>
 		       		<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>FrontEnd</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>./</classpathPrefix>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>	
