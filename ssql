@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 #supersql.jarの位置指定
-ROOTDIR=/opt/SuperSQL
+DEVDIR=$RPM_BUILD_ROOT
+
+ROOTDIR=${DEVDIR}/opt/supersql
 
 #オプションのチェック
 files=()
@@ -49,9 +51,20 @@ do
 	shift
 done
 
+#configファイル
+if [ "$FLAG_conf" ]; then
+	if [ ! -e $conf ]; then
+   		echo "Not found: $conf"
+   		exit 1
+	fi
+	cd `dirname $conf`
+	conf_path=`pwd`/`basename $conf`
+	options+=("-c" $conf_path)
+fi
+
 if [ "$FLAG_version" ]; then
-	echo "java -cp $ROOTDIR/lib/* supersql.FrontEnd -v"
-	java -cp $ROOTDIR/lib/* supersql.FrontEnd -v
+	echo "java -cp \"$ROOTDIR/lib/*\" supersql.FrontEnd -v ${option_str}"
+	java -cp "$ROOTDIR/lib/*" supersql.FrontEnd -v $option_str
 	exit 0
 fi
 
@@ -68,17 +81,6 @@ do
 	files_full+=($file_path)
 done
 
-#configファイル
-if [ "$FLAG_conf" ]; then
-	if [ ! -e $conf ]; then
-   		echo "Not found: $conf"
-   		exit 1
-	fi
-	cd `dirname $conf`
-	conf_path=`pwd`/`basename $conf`
-	options+=("-c" $conf_path)
-fi
-
 for o in ${options[@]}
 do
 	option_str+="${o} "
@@ -87,6 +89,6 @@ done
 
 for file in ${files_full[@]}
 do
-	echo "java ${VMs} -cp $ROOTDIR/lib/* supersql.FrontEnd -f ${file} ${option_str}"
-	java $VMs -cp $ROOTDIR/libs/* supersql.FrontEnd -f $file $option_str
+	echo "java ${VMs} -cp \"$ROOTDIR/lib/*\" supersql.FrontEnd -f ${file} ${option_str}"
+	java $VMs -cp "$ROOTDIR/libs/*" supersql.FrontEnd -f $file $option_str
 done
